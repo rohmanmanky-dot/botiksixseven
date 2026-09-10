@@ -1,0 +1,12 @@
+services:
+  bot:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      SCHEDULE_PATH: /app/config/schedule.json
+      ROSTER_PATH: /app/config/roster.json
+      DB_PATH: /app/data/bot.sqlite3
+    volumes:
+      - ./config:/app/config:ro
+      - ./data:/app/data
