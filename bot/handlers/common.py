@@ -2,12 +2,20 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import date, timedelta
 
-from aiogram import Router
+from aiogram import F, Router
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command, CommandObject, CommandStart
-from aiogram.types import Message
+from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 
+from ..keyboards import (
+    NAV_PREFIX,
+    day_nav_keyboard,
+    parse_nav_callback,
+    week_nav_keyboard,
+    week_start,
+)
 from ..service import AttendanceService
 from ..texts import HELP_TEXT, render_day, render_next, render_week
 
@@ -29,23 +37,53 @@ async def cmd_help(message: Message) -> None:
     await message.answer(HELP_TEXT, disable_web_page_preview=True)
 
 
+def day_view(service: AttendanceService, day: date) -> tuple[str, InlineKeyboardMarkup]:
+    today = service.now().date()
+    text = render_day(day, service.schedule.occurrences_on(day), today=today)
+    return text, day_nav_keyboard(day, today)
+
+
+def week_view(service: AttendanceService, monday: date) -> tuple[str, InlineKeyboardMarkup]:
+    today = service.now().date()
+    return render_week(service.schedule, monday), week_nav_keyboard(monday, today)
+
+
 @router.message(Command("today"))
 async def cmd_today(message: Message, service: AttendanceService) -> None:
-    day = service.now().date()
-    await message.answer(render_day(day, service.schedule.occurrences_on(day)))
+    text, keyboard = day_view(service, service.now().date())
+    await message.answer(text, reply_markup=keyboard)
 
 
 @router.message(Command("tomorrow"))
 async def cmd_tomorrow(message: Message, service: AttendanceService) -> None:
-    day = service.now().date() + timedelta(days=1)
-    await message.answer(render_day(day, service.schedule.occurrences_on(day)))
+    text, keyboard = day_view(service, service.now().date() + timedelta(days=1))
+    await message.answer(text, reply_markup=keyboard)
 
 
 @router.message(Command("week"))
 async def cmd_week(message: Message, service: AttendanceService) -> None:
-    today = service.now().date()
-    monday = today - timedelta(days=today.weekday())
-    await message.answer(render_week(service.schedule, monday))
+    text, keyboard = week_view(service, week_start(service.now().date()))
+    await message.answer(text, reply_markup=keyboard)
+
+
+@router.callback_query(F.data.startswith(f"{NAV_PREFIX}:"))
+async def on_schedule_nav(callback: CallbackQuery, service: AttendanceService) -> None:
+    """Листает расписание в том же сообщении, а не плодит новые."""
+    parsed = parse_nav_callback(callback.data or "", service.now().date())
+    message = callback.message
+    if parsed is None or not isinstance(message, Message):
+        await callback.answer("Эта кнопка устарела — вызовите /today или /week заново.")
+        return
+
+    view, day = parsed
+    text, keyboard = day_view(service, day) if view == "day" else week_view(service, day)
+    try:
+        await message.edit_text(text, reply_markup=keyboard)
+    except TelegramBadRequest as error:
+        # Двойной тап по «Сегодня» — текст не изменился, это не ошибка.
+        if "message is not modified" not in str(error):
+            raise
+    await callback.answer()
 
 
 @router.message(Command("next"))

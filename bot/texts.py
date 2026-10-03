@@ -150,12 +150,23 @@ def render_poll(
     return "\n".join(lines)
 
 
+RELATIVE_DAYS = {-1: "вчера", 0: "сегодня", 1: "завтра"}
+
+
 def render_day(
-    day: date, occurrences: list[Occurrence], *, empty_note: str | None = None
+    day: date,
+    occurrences: list[Occurrence],
+    *,
+    empty_note: str | None = None,
+    today: date | None = None,
 ) -> str:
+    """С `today` в шапке появится «сегодня / завтра / вчера» — удобно при листании."""
+    header = f"📅 <b>{fmt_date(day)}</b>"
+    if today is not None and (day - today).days in RELATIVE_DAYS:
+        header += f" · {RELATIVE_DAYS[(day - today).days]}"
     if not occurrences:
-        return f"📅 <b>{fmt_date(day)}</b>\n\n{empty_note or 'Пар нет. Отдыхаем 🎉'}"
-    lines = [f"📅 <b>{fmt_date(day)}</b>", ""]
+        return f"{header}\n\n{empty_note or 'Пар нет. Отдыхаем 🎉'}"
+    lines = [header, ""]
     for occurrence in occurrences:
         lesson = occurrence.lesson
         parts = [f"{occurrence.time_range} — {lesson.emoji} <b>{escape(lesson.title)}</b>"]
