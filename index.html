@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Аргунский маршрут — путеводитель по Чечне</title>
+  <meta name="description" content="Туристический маршрут по Чечне: от мечети «Сердце Чечни» в Грозном через Аргунское ущелье до древнего некрополя Цой-Педе.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=PT+Serif:ital,wght@0,700;1,400&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero__inner">
+    <p class="hero__kicker">Путеводитель по Чечне · проект по ОРГ</p>
+    <h1>Аргунский маршрут</h1>
+    <p class="hero__lead">От «Сердца Чечни» до «города мёртвых»: 10 остановок,
+      одно ущелье и монета на память.</p>
+    <nav class="hero__nav">
+      <a href="#about">О Чечне</a>
+      <a href="#map">Карта</a>
+      <a href="#stops">Остановки</a>
+      <a href="#finale">Финал</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Влад: краткая характеристика Чечни -->
+  <section id="about" class="section">
+    <h2>Что такое Чечня и где она</h2>
+    <p class="draft">✍️ Текст пишет Влад: где находится Чечня, столица, население,
+      язык, религия, природа, чем республика важна для России. 1–2 абзаца, живым языком.</p>
+  </section>
+
+  <!-- Карта маршрута: Рахман. Характеристика маршрута и дороги: Влад -->
+  <section id="map" class="section">
+    <h2>Карта маршрута</h2>
+    <div id="route-map" class="map" role="region" aria-label="Карта маршрута"></div>
+    <p class="map__legend">
+      <span class="dot dot--main"></span> главные точки
+      <span class="dot dot--way"></span> остановки по пути
+      <span id="route-info" class="map__info"></span>
+    </p>
+
+    <div class="route-plan">
+      <h3>Как проехать: маршрут на 3 дня</h3>
+      <ol>
+        <li><b>День 1. Грозный.</b> Мечеть «Сердце Чечни», вечером — «Грозный-Сити» на закате.</li>
+        <li><b>День 2. Аргунское ущелье.</b> Волчьи ворота → Шатойская башня →
+          Нихалойские водопады → Ушкалойские башни → Итум-Кали (Пхакоч, музей). Ночёвка в Итум-Кали или на «Ведучи».</li>
+        <li><b>День 3. К границе.</b> Дёрская башня и «Ведучи» утром, затем Цой-Педе
+          (нужен пропуск в погранзону!) и возвращение в Грозный.</li>
+      </ol>
+      <p class="draft">✍️ Влад: характеристика маршрута и дороги — трасса Р-305, состояние
+        дороги, транспорт (машина / маршрутки с «Минутки» / экскурсии), где жить, что взять с собой.</p>
+    </div>
+  </section>
+
+  <section id="stops" class="section">
+    <h2>Остановки</h2>
+    <div id="stops-list" class="stops"></div>
+  </section>
+
+  <section id="finale" class="section finale"></section>
+</main>
+
+<footer class="footer">
+  <p>Проект по курсу «Основы российской государственности», НИУ ВШЭ, 2026.<br>
+    Команда: Рахман, Влад, Миша. Карта: © участники OpenStreetMap.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/stops.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

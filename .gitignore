@@ -1,11 +1,2 @@
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-.env
-*.db
-*.sqlite3
-data/
-config/schedule.json
-config/roster.json
-.pytest_cache/
+.DS_Store
+Thumbs.db
