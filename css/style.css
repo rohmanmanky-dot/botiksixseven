@@ -132,3 +132,10 @@ a { color: var(--green); }
   .stop__body { padding: 18px; }
   .finale .photo { max-width: 260px; margin: 0 auto; }
 }
+
+/* ---------- Справка о регионе ---------- */
+
+.region { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin: 20px 0 0; }
+.region div { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.region dt { font-weight: 800; color: var(--green); font-size: 14px; text-transform: uppercase; letter-spacing: .05em; }
+.region dd { margin: 4px 0 0; }

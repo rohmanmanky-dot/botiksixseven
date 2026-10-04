@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Аргунский маршрут — презентация</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=PT+Serif:ital,wght@0,700;1,400&display=swap">
+  <link rel="stylesheet" href="css/slides.css">
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- 1. Чечня — Влад -->
+  <section class="slide slide--region" data-speaker="Влад">
+    <div class="split">
+      <div class="pad">
+        <p class="kicker">Аргунский маршрут · путеводитель по Чечне</p>
+        <h1>Чечня: где это?</h1>
+        <p class="lead">Республика в составе России на Северном Кавказе. Столица — Грозный.</p>
+        <dl class="kv">
+          <div><dt>Соседи</dt><dd>Ставропольский край, Дагестан, Ингушетия, Северная Осетия — Алания, Грузия</dd></div>
+          <div><dt>Площадь</dt><dd>около 16 тыс. км²</dd></div>
+          <div><dt>Население</dt><dd>в основном чеченцы; также русские, ингуши и другие народы</dd></div>
+          <div><dt>Природа</dt><dd>на севере равнины, на юге — Большой Кавказ</dd></div>
+          <div><dt>Экономика</dt><dd>сельское хозяйство, строительство, торговля, энергетика</dd></div>
+          <div><dt>Языки</dt><dd>русский и чеченский</dd></div>
+        </dl>
+      </div>
+      <div class="map" id="map-region"></div>
+    </div>
+    <aside class="notes">Чечня — республика в составе Российской Федерации на Северном Кавказе.
+      Граничит на севере со Ставропольским краем, на востоке с Дагестаном, на западе с Ингушетией
+      и Северной Осетией — Аланией, на юге с Грузией. На севере — равнины, юг занят Большим Кавказом.
+      Официальные языки — русский и чеченский.</aside>
+  </section>
+
+  <!-- 2. Маршрут + интерактивная карта — Влад (текст), Рахман (карта) -->
+  <section class="slide slide--route" data-speaker="Влад">
+    <div class="split split--wide-map">
+      <div class="map" id="map-route"></div>
+      <div class="pad">
+        <p class="kicker">Маршрут</p>
+        <h2>Из Грозного на юг, в горы</h2>
+        <ul class="bullets">
+          <li><b>Идея:</b> от современной столицы через природу и средневековые башни к некрополю Цой-Педе</li>
+          <li><b>Характер:</b> культура + природа + горный туризм</li>
+          <li><b>Дорога:</b> равнина → ущелья → серпантины. Самый красивый участок — Аргунское ущелье</li>
+          <li><b>Время:</b> 4 главные точки — за долгий день, все 10 остановок — за 2–3 дня</li>
+        </ul>
+        <p class="legend"><span class="dot dot--main"></span> главные точки
+          <span class="dot dot--way"></span> по пути<br><span id="route-info"></span></p>
+      </div>
+    </div>
+    <aside class="notes">Маршрут идёт из Грозного в горную часть юга Чечни. По мере продвижения рельеф
+      становится сложнее: равнина сменяется ущельями, серпантинами и горными дорогами. Дорога к Цой-Педе
+      проходит по удалённой местности, последний участок требует больше времени и внимания.
+      Карта интерактивная: можно нажать на любую точку.</aside>
+  </section>
+
+  <!-- 3–6. Остановки: заполняются из js/stops.js -->
+  <section class="slide slide--stop" data-stop="mosque" data-speaker="Тихон"
+    data-bullets="Главная мечеть Грозного и всей Чечни, одна из крупнейших в России и Европе|Строили с 2006 по 2008 год по образу Голубой мечети в Стамбуле|Купол 32 м · 10 000 человек внутри и до 20 000 во дворе|Бежевый травертин, 36 люстр, вокруг — парк"
+    data-howto="📍 Центр Грозного, пр. Х. Исаева, 90 · 👟 обувь снимают · 🧕 дресс-код, девушкам — платок"></section>
+
+  <section class="slide slide--stop" data-stop="nikhaloy" data-speaker="Тихон"
+    data-bullets="Каскад из 12 водопадов на правом притоке Чанти-Аргуна|Самый высокий — 32 м, самый низкий — около 2 м|7 водопадов — на обычном маршруте, к остальным 5 — только с гидом и снаряжением|Рядом туристический комплекс на 200 человек"
+    data-howto="🚗 ≈60 км от Грозного, поворот в районе Шатоя · 🥾 крутые лестницы, местами вброд · 📷 берегите технику от водяной пыли"></section>
+
+  <section class="slide slide--stop" data-stop="ushkaloy" data-speaker="Миша"
+    data-bullets="Башни-близнецы примерно XI века в самом узком месте Аргунского ущелья|Около 12 м, три стены — а четвёртая и крыша — сама скала|Вход на высоте 2,5 м, в стенах бойницы|Восстановлены в 2011 году — поэтому левая башня серее"
+    data-howto="🚗 ≈1 ч 20 мин от Грозного, прямо у дороги, за 1,5 км до Ушкалоя · 🚌 маршрутка с «Минутки» · 🌉 к башням — по мосту через Аргун"></section>
+
+  <section class="slide slide--stop" data-stop="tsoi-pede" data-speaker="Миша"
+    data-bullets="«Город мёртвых» — средневековый некрополь на мысу у слияния двух рек|Около 42 склепов и 8 башен, высота ≈1210 м|Языческие захоронения XII–XVIII веков, петроглифы на камнях|Легенда: крепость пала только через три месяца осады"
+    data-howto="🚗 ≈3 ч от Грозного, после Итум-Кали — грунтовка · 🪪 КПП погранзоны: паспорт РФ · ☀️ только в светлое время суток"></section>
+
+  <!-- 7. Монета — Тихон -->
+  <section class="slide slide--coin" data-speaker="Тихон">
+    <div class="split split--coin">
+      <figure class="coin">
+        <img src="images/coin.jpg" alt="Монета 10 рублей 2010 года «Чеченская Республика»"
+             onerror="this.parentElement.classList.add('coin--empty'); this.remove();">
+        <figcaption>images/coin.jpg</figcaption>
+      </figure>
+      <div class="pad">
+        <p class="kicker">Финал</p>
+        <h2>Чечня в кармане</h2>
+        <p class="lead">10 рублей 2010 года «Чеченская Республика»</p>
+        <ul class="bullets">
+          <li>Банк России, серия «Российская Федерация», в обращении с 1 октября 2010 года</li>
+          <li>На реверсе — герб республики: башня, горы, нефтяная вышка и орнамент</li>
+          <li>Весь маршрут на одной монете: башни, горы — и Грозный, выросший на нефти</li>
+          <li>Проверьте сдачу — вдруг она уже у вас 😉</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="notes">Чечня — удивительный и такой неизведанный регион России. Она увековечена во многих
+      аспектах, но мы хотим рассказать вам об особой монете: 10 рублей 2010 года «Чеченская Республика».
+      Биметалл: латунное кольцо и медно-никелевый диск, 27 мм, 8,4 г.</aside>
+  </section>
+
+  <!-- 8. Источники -->
+  <section class="slide slide--sources" data-speaker="—">
+    <div class="pad">
+      <h2>Источники</h2>
+      <div class="sources-grid" id="sources-grid"></div>
+    </div>
+  </section>
+
+  <!-- 9. Спасибо -->
+  <section class="slide slide--thanks" data-speaker="Рахман">
+    <div class="thanks">
+      <h1>Спасибо за внимание!</h1>
+      <p class="lead">Интерактивная карта и полный путеводитель — по QR-коду</p>
+      <div id="qr" class="qr"></div>
+      <p class="url" id="site-url"></p>
+      <p class="team">Рахман · Тихон · Влад · Миша</p>
+    </div>
+  </section>
+
+</div>
+
+<nav class="controls" aria-label="Навигация по слайдам">
+  <button id="prev" aria-label="Назад">←</button>
+  <span id="counter"></span>
+  <button id="next" aria-label="Вперёд">→</button>
+  <button id="fs" aria-label="Во весь экран" title="Во весь экран (F)">⛶</button>
+</nav>
+<div class="speaker" id="speaker"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="js/stops.js"></script>
+<script src="js/slides.js"></script>
+</body>
+</html>

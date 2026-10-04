@@ -1,0 +1,162 @@
+/* Презентация 16:9. 1 --u = 1% ширины слайда, всё масштабируется вместе с экраном. */
+
+:root {
+  --green: #0b6e4f;
+  --green-dark: #08392b;
+  --gold: #c9a227;
+  --stone: #f5f1ea;
+  --ink: #1d2320;
+  --muted: #5d6762;
+  --line: #e2dccf;
+  --w: min(100vw, 177.78vh);
+  --u: calc(var(--w) / 100);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #111; overflow: hidden; }
+body { color: var(--ink); font-family: "Manrope", system-ui, sans-serif; }
+h1, h2, h3 { font-family: "PT Serif", Georgia, serif; line-height: 1.1; margin: 0; }
+a { color: var(--green); }
+
+.deck { position: fixed; inset: 0; display: grid; place-items: center; }
+
+.slide {
+  position: absolute;
+  width: var(--w);
+  height: calc(var(--w) * 0.5625);
+  background: var(--stone);
+  overflow: hidden;
+  font-size: calc(var(--u) * 1.55);
+  line-height: 1.4;
+  display: none;
+}
+.slide.is-active { display: block; }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; height: 100%; }
+.split--wide-map { grid-template-columns: 1.35fr 1fr; }
+.split--coin { grid-template-columns: 0.9fr 1.1fr; align-items: center; }
+.pad { padding: calc(var(--u) * 4) calc(var(--u) * 4); display: flex; flex-direction: column; justify-content: center; }
+
+.kicker { text-transform: uppercase; letter-spacing: .12em; font-size: .62em; color: var(--green); font-weight: 800; margin: 0 0 .8em; }
+h1 { font-size: 2.6em; color: var(--green-dark); }
+h2 { font-size: 2.3em; color: var(--green-dark); }
+.lead { font-size: 1.1em; color: var(--muted); margin: .5em 0 .8em; }
+
+.bullets { margin: .9em 0 0; padding: 0; list-style: none; }
+.bullets li { position: relative; padding-left: 1.2em; margin: 0 0 .55em; }
+.bullets li::before {
+  content: ""; position: absolute; left: 0; top: .5em;
+  width: .5em; height: .5em; border-radius: 50%; background: var(--gold);
+}
+
+.howto {
+  margin: 1em 0 0; padding: .7em 1em; font-size: .78em;
+  background: #fff; border-left: calc(var(--u) * .35) solid var(--green); border-radius: .4em;
+}
+
+.kv { display: grid; grid-template-columns: 1fr 1fr; gap: .5em .9em; margin: .4em 0 0; font-size: .78em; }
+.kv div { background: #fff; border-radius: .5em; padding: .5em .8em; border: 1px solid var(--line); }
+.kv dt { font-weight: 800; color: var(--green); font-size: .78em; text-transform: uppercase; letter-spacing: .05em; }
+.kv dd { margin: .15em 0 0; }
+
+/* ---------- Фото ---------- */
+
+.photo { margin: 0; height: 100%; background: #cfdcd5; position: relative; }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo figcaption, .coin figcaption { display: none; }
+.photo--empty, .coin--empty {
+  display: grid; place-items: center;
+  background: repeating-linear-gradient(45deg, #dbe6e0, #dbe6e0 12px, #d1ded7 12px, #d1ded7 24px);
+}
+.photo--empty figcaption, .coin--empty figcaption { display: block; color: var(--muted); font-size: .8em; }
+
+.coin {
+  margin: 0 auto; width: 78%; aspect-ratio: 1; border-radius: 50%; overflow: hidden;
+  border: calc(var(--u) * .5) solid var(--gold); box-shadow: 0 1em 2em rgba(0, 0, 0, .18); background: #fff;
+}
+.coin img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Карта ---------- */
+
+.map { height: 100%; background: #dfe8e3; }
+.legend { font-size: .7em; color: var(--muted); margin-top: 1em; }
+.dot { display: inline-block; width: .8em; height: .8em; border-radius: 50%; margin: 0 .2em 0 .6em; vertical-align: -.05em; }
+.dot--main { background: var(--green); }
+.dot--way { background: #fff; border: 2px solid var(--green); }
+.pin {
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  font: 700 15px "Manrope", sans-serif; box-shadow: 0 2px 6px rgba(0, 0, 0, .35);
+}
+.pin--main { background: var(--green); color: #fff; border: 2px solid #fff; }
+.pin--way { background: #fff; color: var(--green); border: 2px solid var(--green); }
+
+/* ---------- Источники ---------- */
+
+.slide--sources .pad { justify-content: flex-start; padding-top: calc(var(--u) * 3); }
+.sources-grid { columns: 3; column-gap: 2em; font-size: .5em; margin-top: 1em; line-height: 1.35; }
+.src-group { break-inside: avoid; margin-bottom: 1em; }
+.src-group h3 { font-family: "Manrope", sans-serif; font-size: 1.05em; color: var(--green); margin-bottom: .3em; }
+.src-group ul { margin: 0; padding-left: 1.1em; }
+.src-group li { margin-bottom: .15em; }
+.src-group a { color: var(--ink); text-decoration: none; }
+.src-group span { color: var(--muted); }
+
+/* ---------- Спасибо ---------- */
+
+.slide--thanks { background: var(--green-dark); color: #fff; }
+.thanks { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.thanks h1 { color: #fff; font-size: 3.4em; }
+.thanks .lead { color: rgba(255, 255, 255, .8); }
+.qr { background: #fff; padding: calc(var(--u) * .8); border-radius: .5em; margin: .6em 0; }
+.qr img, .qr canvas { width: calc(var(--u) * 15) !important; height: calc(var(--u) * 15) !important; display: block; }
+.url { font-size: .75em; opacity: .8; margin: .3em 0; }
+.team { font-size: .8em; color: var(--gold); margin-top: 1.4em; letter-spacing: .05em; }
+
+/* ---------- Заметки выступающего (клавиша N) ---------- */
+
+.notes { display: none; }
+.show-notes .slide.is-active .notes {
+  display: block; position: absolute; left: 0; right: 0; bottom: 0; max-height: 45%; overflow: auto;
+  background: rgba(17, 17, 17, .92); color: #f2f2f2; font-size: .62em; padding: 1em 1.6em; z-index: 1000;
+}
+.show-notes .notes h4 { margin: .6em 0 .2em; }
+
+/* ---------- Панель управления ---------- */
+
+.controls {
+  position: fixed; right: 12px; bottom: 12px; z-index: 2000; display: flex; align-items: center; gap: 6px;
+  background: rgba(0, 0, 0, .55); color: #fff; border-radius: 999px; padding: 4px 10px; font-size: 14px;
+  opacity: .35; transition: opacity .2s;
+}
+.controls:hover { opacity: 1; }
+.controls button { background: none; border: 0; color: #fff; font-size: 18px; cursor: pointer; padding: 2px 6px; }
+.speaker {
+  position: fixed; left: 12px; bottom: 12px; z-index: 2000; color: #fff; font-size: 13px;
+  background: rgba(0, 0, 0, .55); border-radius: 999px; padding: 4px 12px; opacity: .35;
+}
+.speaker:empty { display: none; }
+
+/* ---------- Узкий экран (телефон вертикально) ---------- */
+
+@media (max-aspect-ratio: 1/1) {
+  html, body { overflow: auto; }
+  .deck { position: static; display: block; }
+  .slide { position: relative; width: 100vw; height: auto; min-height: 100vh; font-size: 16px; }
+  .split, .split--wide-map, .split--coin { grid-template-columns: 1fr; }
+  .photo, .map { height: 45vh; }
+  .pad { padding: 20px 16px; }
+  .kv { grid-template-columns: 1fr; }
+  .sources-grid { columns: 1; font-size: 13px; }
+  .coin { width: 70%; margin-top: 24px; }
+}
+
+/* ---------- Печать в PDF: каждый слайд на своей странице ---------- */
+
+@media print {
+  @page { size: 297mm 167mm; margin: 0; }
+  html, body { background: #fff; overflow: visible; height: auto; }
+  :root { --w: 297mm; }
+  .deck { position: static; display: block; }
+  .slide { display: block !important; position: relative; page-break-after: always; break-after: page; }
+  .controls, .speaker, .notes { display: none !important; }
+}

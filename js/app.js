@@ -3,12 +3,22 @@
 
   // ---------- Карточки остановок ----------
 
-  function photo(file, alt) {
-    // Если картинки ещё нет в images/, показываем аккуратную заглушку.
+  // Сначала своё фото из images/, потом запасное с Wikimedia Commons, потом заглушка.
+  window.photoFail = function (img) {
+    const fb = img.dataset.fallback;
+    if (fb && img.src.indexOf("commons.wikimedia.org") === -1) {
+      img.src = "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(fb) + "?width=1600";
+      return;
+    }
+    img.parentElement.classList.add("photo--empty");
+    img.remove();
+  };
+
+  function photo(file, alt, commons) {
     return `
       <figure class="photo">
         <img src="images/${file}" alt="${alt}" loading="lazy"
-             onerror="this.parentElement.classList.add('photo--empty'); this.remove();">
+             ${commons ? `data-fallback="${commons}"` : ""} onerror="photoFail(this)">
         <figcaption>Фото: images/${file}</figcaption>
       </figure>`;
   }
@@ -28,7 +38,7 @@
   document.getElementById("stops-list").innerHTML = stops
     .map((s, i) => `
       <article class="stop stop--${s.kind}" id="stop-${s.id}">
-        ${photo(s.photo, s.title)}
+        ${photo(s.photo, s.title, s.commons)}
         <div class="stop__body">
           <p class="stop__meta">
             <span class="stop__num">${i + 1}</span>
